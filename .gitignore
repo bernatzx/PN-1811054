@@ -13,6 +13,9 @@ nbproject/
 # --- Uploads (hasil runtime, tidak perlu di repo) ---
 uploads/
 
+# --- Assets ---
+public/assets/
+
 # --- File database backup / dump ---
 *.sql
 
