@@ -11,9 +11,9 @@
       class="hover:opacity-70 py-2 px-3 shadow-md border border-gray-400 text-gray-400 rounded-md cursor-pointer">
       <i class="fas fa-refresh"></i>
     </div>
-    <div onclick="window.location=''"
+    <div onclick="window.location='form.php'"
       class="hover:opacity-70 border border-blue-600 bg-blue-500 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
-      Tambah Data
+      <i class="fas fa-plus fa-fw"></i>Tambah Data
     </div>
   </div>
 </div>
