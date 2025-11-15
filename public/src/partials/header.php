@@ -22,7 +22,7 @@ $valid = true;
 
 <body>
 
-  <div class="bg-gray-100 h-screen">
+  <div class="bg-gray-100 min-h-screen">
     <div class="fixed w-full px-5 pt-2 pb-1 bg-gray-50">
       <div class="bg-white shadow-md border flex py-2 px-5 items-center justify-between font-medium">
         <div class="text-2xl">Selamat Datang <?= $valid ? "Admin" : "di DM Store" ?></div>
@@ -45,4 +45,4 @@ $valid = true;
         <?php } ?>
       </div>
     </div>
-    <div class="w-full max-w-4xl m-auto pt-[100px] h-full mb-[50px]">
+    <div class="w-full max-w-4xl m-auto pt-[100px] h-full pb-[50px]">

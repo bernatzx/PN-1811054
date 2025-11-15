@@ -32,10 +32,10 @@
 
 <div class="capitalize font-medium text-xl mb-4">navigasi cepat</div>
 <div class="grid grid-cols-2 gap-5 text-sm">
-  <div
+  <div onclick="window.location='<?= base('/public/src/views/produk') ?>'"
     class="bg-gray-800 px-5 py-3 text-gray-100 text-center font-medium rounded-md shadow-md cursor-pointer hover:opacity-70">
     Kelola Produk</div>
-  <div
+  <div onclick="window.location='<?= base('/public/src/views/pesanan') ?>'"
     class="bg-gray-800 px-5 py-3 text-gray-100 text-center font-medium rounded-md shadow-md cursor-pointer hover:opacity-70">
     Kelola Pesanan</div>
   <div
