@@ -6,9 +6,15 @@
     <br>
     <span class="text-gray-400">Data Pesanan</span>
   </div>
-  <div onclick="window.location='detail.php'"
-    class="hover:opacity-70 py-2 px-3 shadow-md border border-gray-400 text-gray-400 rounded-md cursor-pointer">
-    <i class="fas fa-refresh"></i>
+  <div class="flex text-sm gap-2">
+    <div onclick="window.location='detail.php'"
+      class="hover:opacity-70 py-2 px-3 shadow-md border border-gray-400 text-gray-400 rounded-md cursor-pointer">
+      <i class="fas fa-refresh"></i>
+    </div>
+    <div onclick="window.location='<?= base('/public/src/views/dashboard') ?>'"
+      class="hover:opacity-70 text-sm bg-gray-800 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
+      <i class="fas fa-arrow-left fa-fw"></i>Kembali
+    </div>
   </div>
 </div>
 
