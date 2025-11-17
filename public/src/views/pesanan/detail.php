@@ -73,7 +73,7 @@
 </table>
 
 <div class="bg-white rounded-lg p-3">
-  <div id="cdetail-btn" class="flex items-center justify-between font-semibold text-gray-900">
+  <div id="cdetail-btn" class="cursor-pointer flex items-center justify-between font-semibold text-gray-900">
     <div>
       Detail Pelanggan
     </div>

@@ -41,7 +41,7 @@
   <div onclick="window.location='<?= base('/public/src/views/pengguna') ?>'"
     class="bg-gray-800 px-5 py-3 text-gray-100 text-center font-medium rounded-md shadow-md cursor-pointer hover:opacity-70">
     Kelola Pengguna</div>
-  <div
+  <div onclick="window.location='<?= base('/public/src/views/laporan') ?>'"
     class="bg-gray-800 px-5 py-3 text-gray-100 text-center font-medium rounded-md shadow-md cursor-pointer hover:opacity-70">
     Lihat Laporan</div>
 </div>

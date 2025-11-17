@@ -6,16 +6,22 @@
     <br>
     <span class="text-gray-400">Data Pesanan</span>
   </div>
-  <div class="flex text-sm gap-2">
-    <div onclick="window.location='detail.php'"
-      class="hover:opacity-70 py-2 px-3 shadow-md border border-gray-400 text-gray-400 rounded-md cursor-pointer">
-      <i class="fas fa-refresh"></i>
-    </div>
-    <div onclick="window.location='<?= base('/public/src/views/dashboard') ?>'"
-      class="hover:opacity-70 text-sm bg-gray-800 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
-      <i class="fas fa-arrow-left fa-fw"></i>Kembali
-    </div>
-  </div>
+  <?php
+  $btn = new ActionButtons();
+  $btn->addButton(
+    "",
+    "fas fa-refresh",
+    "",
+    "border-gray-400 border text-gray-400"
+  );
+  $btn->addButton(
+    "Kembali",
+    "fas fa-arrow-left",
+    base('/public/src/views/dashboard'),
+    "bg-gray-800 text-gray-50"
+  );
+  $btn->render();
+  ?>
 </div>
 
 <?php
@@ -40,12 +46,12 @@ for ($i = 1; $i <= 10; $i++) {
 
 <div class="border shadow-md rounded-lg overflow-hidden">
   <table class="w-full">
-    <thead class="text-xs bg-gray-50 text-gray-700 uppercase border-b">
+    <thead class="text-xs bg-gray-50 text-gray-400 uppercase border-b">
       <tr>
         <th class="tracking-wider p-3 text-left">ID Pesanan</th>
         <th class="tracking-wider p-3 text-left">Nama Pelanggan</th>
         <th class="tracking-wider p-3 text-left">Tanggal</th>
-        <th class="tracking-wider p-3 text-center">Status</th>
+        <th class="tracking-wider p-3 text-left">Status</th>
         <th class="tracking-wider p-3 text-left">Total</th>
         <th class="tracking-wider p-3 text-center"><i class="fas fa-gear"></i></th>
       </tr>
@@ -53,19 +59,19 @@ for ($i = 1; $i <= 10; $i++) {
     <tbody>
       <?php foreach ($dd as $key) { ?>
         <tr class="odd:bg-white even:bg-gray-50">
-          <td class="p-3 tracking-wider text-left font-medium text-sm text-gray-900"><?= $key["ID Pesanan"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-sm text-gray-900"><?= $key["Nama Pelanggan"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-sm text-gray-900"><?= $key["Tanggal"] ?></td>
-          <td class="p-3 tracking-wider text-center">
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["ID Pesanan"] ?></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Nama Pelanggan"] ?></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Tanggal"] ?></td>
+          <td class="p-3 tracking-wider text-left">
             <span
-              class="opacity-70 text-xs bg-<?= $statusColors[$key["Status"]] ?>-500 rounded-md shadow-md capitalize text-gray-50 py-1 px-2"><?= $key["Status"] ?></span>
+              class="opacity-60 text-xs bg-<?= $statusColors[$key["Status"]] ?>-500 rounded-md shadow-md capitalize text-gray-50 py-1 px-2"><?= $key["Status"] ?></span>
           </td>
-          <td class="p-3 tracking-wider text-left font-medium text-sm text-gray-900"><?= $key["Total"] ?></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Total"] ?></td>
           <td class="p-3 tracking-wider text-center text-sm">
-            <a class="py-1 px-3 border border-yellow-500 text-gray-50 shadow-md hover:opacity-70 bg-yellow-400 rounded-md"
-              href=""><i class="fas fa-pencil"></i></a>
-            <a class="py-1 px-3 border border-red-600 text-gray-50 shadow-md hover:opacity-70 bg-red-500 rounded-md"
-              href=""><i class="fas fa-trash"></i></a>
+            <a class="py-1 px-3 border border-blue-500 text-gray-50 shadow-md hover:opacity-70 bg-blue-400 rounded-md"
+              href="detail.php">Detail</i></a>
+            <a class="py-1 px-3 border border-green-600 text-gray-50 shadow-md hover:opacity-70 bg-green-500 rounded-md"
+              href="">Proses</i></a>
           </td>
         </tr>
       <?php } ?>

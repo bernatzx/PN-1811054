@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../../app/init.php";
+require __DIR__ . "/../components/ActionButtons.php";
 $valid = true;
 ?>
 <!DOCTYPE html>
