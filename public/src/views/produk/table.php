@@ -36,7 +36,7 @@ for ($i = 1; $i < 11; $i++) {
 
 <div class="border shadow-md rounded-lg overflow-hidden">
   <table class="w-full">
-    <thead class="text-xs bg-gray-50 text-gray-900 uppercase border-b">
+    <thead class="text-xs bg-gray-50 text-gray-700 uppercase border-b">
       <tr>
         <th class="tracking-wider p-3 text-left w-20">ID</th>
         <th class="tracking-wider p-3 text-left">Nama Produk</th>

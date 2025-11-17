@@ -73,8 +73,15 @@
 </table>
 
 <div class="bg-white rounded-lg p-3">
-  <div class="mb-4 font-semibold text-gray-900">Detail Pelanggan</div>
-  <div class="grid grid-cols-2 gap-x-12 gap-y-4 text-sm">
+  <div id="cdetail-btn" class="flex items-center justify-between font-semibold text-gray-900">
+    <div>
+      Detail Pelanggan
+    </div>
+    <div>
+      <i class="fas fa-angle-down"></i>
+    </div>
+  </div>
+  <div id="dropdown" class="hidden mt-4 grid grid-cols-2 gap-x-12 gap-y-4 text-sm">
     <!-- KOLOM KIRI -->
     <div>
       <div class="flex justify-between mb-3">
@@ -97,7 +104,7 @@
         <span>08123456789</span>
       </div>
       <div class="flex justify-between mb-3 items-center">
-        <span class="font-semibold text-gray-900">Status</span>
+        <span class="font-semibold text-gray-900">Status Pesanan</span>
         <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
           Selesai
         </span>
@@ -105,5 +112,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  const btn = document.getElementById("cdetail-btn");
+  const dd = document.getElementById("dropdown");
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      dd.classList.toggle("hidden");
+    })
+  }
+</script>
 
 <?php require_once __DIR__ . '/../../partials/footer.php'; ?>
