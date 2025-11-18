@@ -14,8 +14,6 @@ class ActionButtons
 
   public function render()
   {
-    echo "<div class='flex text-sm gap-2'>";
-
     foreach ($this->buttons as $btn) {
       echo '
         <div onclick="window.location=\'' . $btn['url'] . '\'"
@@ -24,7 +22,5 @@ class ActionButtons
         </div>
       ';
     }
-
-    echo "</div>";
   }
 }

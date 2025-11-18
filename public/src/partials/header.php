@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../../../app/init.php";
 require __DIR__ . "/../components/ActionButtons.php";
-$valid = true;
+$valid = false;
 ?>
 <!DOCTYPE html>
 <html lang="en">
