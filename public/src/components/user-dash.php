@@ -11,7 +11,8 @@
       <div class="text-gray-400 text-xs">Lihat pesanan Anda disini</div>
     </div>
   </div>
-  <div class="cursor-pointer hover:opacity-70 flex gap-4 bg-white py-3 px-5 font-medium shadow-md border rounded-md">
+  <div onclick="window.location='<?= base('/public/src/views/keranjang') ?>'"
+    class="cursor-pointer hover:opacity-70 flex gap-4 bg-white py-3 px-5 font-medium shadow-md border rounded-md">
     <div class="text-3xl text-gray-400">
       <i class="fas fa-cart-shopping fa-fw"></i>
     </div>
