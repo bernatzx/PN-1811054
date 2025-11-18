@@ -6,9 +6,17 @@
     <br>
     <span class="text-gray-400">Tambah Data Produk</span>
   </div>
-  <div onclick="window.location='table.php'"
-    class="hover:opacity-70 text-sm bg-gray-800 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
-    <i class="fas fa-arrow-left fa-fw"></i>Kembali
+  <div class="text-sm">
+    <?php
+    $btn = new ActionButtons();
+    $btn->addButton(
+      "Kembali",
+      "fas fa-arrow-left",
+      'table.php',
+      "bg-gray-800 text-gray-50"
+    );
+    $btn->render();
+    ?>
   </div>
 </div>
 

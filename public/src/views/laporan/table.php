@@ -6,19 +6,29 @@
     <br>
     <span class="text-gray-400">Data Laporan Penjualan</span>
   </div>
-  <div class="flex text-sm gap-2">
-    <div onclick="window.location=''"
-      class="hover:opacity-70 py-2 px-3 shadow-md border border-gray-400 text-gray-400 rounded-md cursor-pointer">
-      <i class="fas fa-refresh"></i>
-    </div>
-    <div onclick="window.location='<?= base('/public/src/views/dashboard') ?>'"
-      class="hover:opacity-70 text-sm bg-gray-800 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
-      <i class="fas fa-arrow-left fa-fw"></i>Kembali
-    </div>
-    <div onclick="window.location=''"
-      class="hover:opacity-70 border border-blue-600 bg-blue-500 text-white py-2 px-3 rounded-md shadow-md cursor-pointer">
-      <i class="fas fa-download fa-fw"></i>Unduh Laporan
-    </div>
+  <div class='flex text-sm gap-2'>
+    <?php
+    $btn = new ActionButtons();
+    $btn->addButton(
+      "",
+      "fas fa-refresh",
+      "",
+      "border-gray-400 border text-gray-400"
+    );
+    $btn->addButton(
+      "Kembali",
+      "fas fa-arrow-left",
+      base('/public/src/views/dashboard'),
+      "bg-gray-800 text-gray-50"
+    );
+    $btn->addButton(
+      "Unduh Laporan",
+      "fas fa-plus",
+      "",
+      "border border-blue-600 bg-blue-500 text-gray-50"
+    );
+    $btn->render();
+    ?>
   </div>
 </div>
 

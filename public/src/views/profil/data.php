@@ -30,25 +30,25 @@
   </div>
 </div>
 <form class="bg-white p-4 shadow-lg grid grid-cols-3 gap-4 rounded-md">
-  <div class="text-gray-400 font-medium">Nama Pengguna</div>
+  <div class="label-input font-medium">Nama Pengguna</div>
   <div class="col-span-2">
     <input name="nama" disabled type="text" value="Andika Sukardi"
-      class="text-gray-900 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
+      class="text-gray-400 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
   </div>
-  <div class="text-gray-400 font-medium">Email</div>
+  <div class="label-input font-medium">Email</div>
   <div class="col-span-2">
     <input name="email" disabled type="text" value="andika@gmail.com"
-      class="text-gray-900 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
+      class="text-gray-400 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
   </div>
-  <div class="text-gray-400 font-medium">Alamat</div>
+  <div class="label-input font-medium">Alamat</div>
   <div class="col-span-2">
     <input name="alamat" disabled type="text" value="Ternate"
-      class="text-gray-900 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
+      class="text-gray-400 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
   </div>
-  <div class="text-gray-400 font-medium">No.HP</div>
+  <div class="label-input font-medium">No.HP</div>
   <div class="col-span-2">
     <input name="nohp" disabled type="text" value="082323232"
-      class="text-gray-900 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
+      class="text-gray-400 profil-input border-b py-2 px-3 border-gray-400 w-full focus:outline-none">
   </div>
 </form>
 
@@ -56,6 +56,7 @@
   const editBtn = document.getElementById('editBtn');
   const cancelBtn = document.getElementById('cancelBtn');
   const inputs = document.querySelectorAll('.profil-input')
+  const labels = document.querySelectorAll('.label-input')
 
   let isEditing = false;
   let bckpV = [];
@@ -64,14 +65,24 @@
     if (!isEditing) {
       isEditing = true;
       bckpV = Array.from(inputs).map(input => input.value);
-      inputs.forEach(input => input.disabled = false);
+      inputs.forEach(input => {
+        input.disabled = false;
+        input.classList.remove('text-gray-400')
+      });
+      labels.forEach(label => label.classList.add('text-gray-400'));
       editBtn.innerHTML = '<i class="fas fa-save mr-1 fa-fw"></i>Simpan';
       cancelBtn.classList.remove('hidden');
     } else {
       isEditing = false;
-
-      inputs.forEach(input => input.disabled = true);
+      inputs.forEach(input => {
+        input.disabled = true;
+        input.classList.add('text-gray-400')
+      });
+      labels.forEach(label => label.classList.remove('text-gray-400'));
       editBtn.innerHTML = '<i class="fas fa-pencil mr-1 fa-fw"></i> Edit';
+      cancelBtn.classList.add('hidden');
+
+      // BAGIAN INI KIRIM DATA KE API
     }
   })
 
@@ -80,7 +91,9 @@
     inputs.forEach((input, index) => {
       input.value = bckpV[index];
       input.disabled = true;
+      input.classList.add('text-gray-400');
     })
+    labels.forEach(label => label.classList.remove('text-gray-400'));
     editBtn.innerHTML = '<i class="fas fa-pencil mr-1 fa-fw"></i> Edit';
     cancelBtn.classList.add('hidden');
   })

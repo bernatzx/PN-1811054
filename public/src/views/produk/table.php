@@ -7,28 +7,31 @@
     <span class="text-gray-400">Data Produk</span>
   </div>
 
-  <?php
-  $btn = new ActionButtons();
-  $btn->addButton(
-    "",
-    "fas fa-refresh",
-    "",
-    "border-gray-400 border text-gray-400"
-  );
-  $btn->addButton(
-    "Kembali",
-    "fas fa-arrow-left",
-    base('/public/src/views/dashboard'),
-    "bg-gray-800 text-gray-50"
-  );
-  $btn->addButton(
-    "Tembah Data",
-    "fas fa-plus",
-    "form.php",
-    "border border-blue-600 bg-blue-500 text-gray-50"
-  );
-  $btn->render();
-  ?>
+
+  <div class='flex text-sm gap-2'>
+    <?php
+    $btn = new ActionButtons();
+    $btn->addButton(
+      "",
+      "fas fa-refresh",
+      "",
+      "border-gray-400 border text-gray-400"
+    );
+    $btn->addButton(
+      "Kembali",
+      "fas fa-arrow-left",
+      base('/public/src/views/dashboard'),
+      "bg-gray-800 text-gray-50"
+    );
+    $btn->addButton(
+      "Tembah Data",
+      "fas fa-plus",
+      "form.php",
+      "border border-blue-600 bg-blue-500 text-gray-50"
+    );
+    $btn->render();
+    ?>
+  </div>
 </div>
 
 <?php
