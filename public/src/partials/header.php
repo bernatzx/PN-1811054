@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . "/../../../app/init.php";
 require __DIR__ . "/../components/ActionButtons.php";
-$valid = false;
+if (!VALID()) {
+  header("Location: " . base('/public/src/views/auth'));
+  exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,24 +29,17 @@ $valid = false;
   <div class="bg-gray-100 min-h-screen">
     <div class="fixed w-full px-5 pt-2 pb-1 bg-gray-50">
       <div class="bg-white shadow-md border flex py-2 px-5 items-center justify-between font-medium">
-        <div class="text-2xl">Selamat Datang <?= $valid ? "Admin" : "di DM Store" ?></div>
-        <?php if ($valid) { ?>
-          <div
+        <div class="text-2xl">Selamat Datang <?= ISADMIN() ? "Admin" : "di DM Store" ?></div>
+        <div class="flex items-center gap-3">
+          <?= ISADMIN() ? "" : "<div class='text-sm text-gray-900'>$_SESSION[nl]</div>" ?>
+          <div id="logout-btn"
             class="text-sm flex items-center gap-2 bg-red-500 text-gray-50 py-1 px-3 rounded-md border border-red-600 shadow-md cursor-pointer hover:opacity-70">
             <div>
               <i class="fas fa-right-from-bracket fa-fw"></i>
             </div>
             <div>Logout</div>
           </div>
-        <?php } else { ?>
-          <div
-            class="text-sm flex items-center gap-2 bg-blue-500 text-gray-50 py-1 px-3 rounded-md border border-blue-600 shadow-md cursor-pointer hover:opacity-70">
-            <div>
-              <i class="fas fa-right-to-bracket fa-fw"></i>
-            </div>
-            <div>Login</div>
-          </div>
-        <?php } ?>
+        </div>
       </div>
     </div>
     <div class="w-full max-w-4xl m-auto pt-[100px] h-full pb-[50px]">

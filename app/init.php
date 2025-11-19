@@ -3,10 +3,16 @@ declare(strict_types=1);
 session_start();
 
 require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/handlers/AdminHandler.php";
+require_once __DIR__ . "/handlers/UserHandler.php";
 
 function VALID()
 {
   return isset($_SESSION['valid']) && $_SESSION['valid'] === true;
+}
+function ISADMIN()
+{
+  return isset($_SESSION['role']) && $_SESSION['role'] === "admin";
 }
 
 function base($url = null)

@@ -11,7 +11,7 @@ if (VALID()) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registrasi | Sistem Informasi Penjualan</title>
+  <title>Login ADMIN | Sistem Informasi Penjualan</title>
   <script src="<?= base('public/assets/js/all.min.js') ?>" defer></script>
   <script src="<?= base('public/assets/js/tailwindcss.js') ?>"></script>
   <style>
@@ -28,30 +28,22 @@ if (VALID()) {
   <div class="h-screen flex justify-center items-center">
     <div class="max-w-md bg-gray-50 w-full shadow-lg border-2 p-5 rounded-lg">
       <div class="text-center mb-5">
-        <span class="text-4xl text-gray-800 font-bold">Registrasi DM STORE</span>
+        <span class="text-4xl text-gray-800 font-bold">DM STORE</span>
         <br>
-        <span class="font-semibold text-gray-500">Buat akun baru untuk mulai berbelanja</span>
+        <span class="font-semibold text-gray-500">Login admin</span>
       </div>
       <form id="form-data">
         <div class="mb-4">
-          <label class="block mb-2 font-semibold">Nama Lengkap</label>
-          <input name="nama_lengkap" type="text" class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
-            placeholder="Masukkan nama lengkap" required>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Email</label>
-          <input name="email" type="text" class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
-            placeholder="Masukkan email" required>
+          <label class="block mb-2 font-semibold">Username</label>
+          <input name="username" type="text"
+            class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
+            placeholder="Masukkan username" required>
         </div>
         <div class="mb-4">
           <label class="block mb-2 font-semibold">Password</label>
-          <input name="password" type="password" class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
+          <input name="password" type="password"
+            class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
             placeholder="Masukkan password" required>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Konfirmasi Password</label>
-          <input name="confirm-password" type="password" class="block border w-full p-2 text-sm rounded-md border-gray-500 outline-none"
-            placeholder="Masukkan konfirmasi password" required>
         </div>
         <div id="errorBox"
           class="mb-4 hidden font-medium text-sm flex items-center gap-2 p-2 bg-red-400 text-red-800 rounded-md">
@@ -61,14 +53,12 @@ if (VALID()) {
             <i class="cursor-pointer fas fa-times"></i>
           </div>
         </div>
-        <button class="bg-gray-800 rounded-md w-full p-2 text-white font-semibold mb-4" type="submit">Registrasi</button>
+        <button class="bg-gray-800 rounded-md w-full p-2 text-white font-semibold mb-4" type="submit">Login
+          ADMIN</button>
       </form>
-      <div class="font-semibold text-center">
-        <span class="text-gray-500">
-          Suda punya akun?
-        </span>
-        <a href="login.php" class="text-blue-500">
-          Login
+      <div class="text-center font-semibold text-sm text-gray-500 underline hover:text-blue-500 cursor-pointer">
+        <a href="login.php">
+          Kembali
         </a>
       </div>
     </div>
@@ -92,7 +82,7 @@ if (VALID()) {
       const formData = new FormData(form);
       const payload = Object.fromEntries(formData.entries());
       try {
-        const res = await fetch("<?= base("/public/api/auth.php") ?>?route=userRG", {
+        const res = await fetch("<?= base("/public/api/auth.php") ?>?route=adminLN", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
