@@ -5,6 +5,7 @@
   const logout = document.getElementById('logout-btn');
   logout.addEventListener('click', async (e) => {
     e.preventDefault();
+    localStorage.removeItem('cart');
 
     try {
       const res = await fetch("<?= base('/public/api/auth.php') ?>?route=logout", {

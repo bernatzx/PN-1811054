@@ -7,14 +7,12 @@
     <span class="text-gray-400">Produk yang Anda Tambahkan</span>
   </div>
   <div class='flex text-sm gap-2'>
+    <div onclick="checkout()"
+      class="text-center hover:opacity-70 py-2 px-3 shadow-md rounded-md cursor-pointer border-blue-600 border bg-blue-500 text-gray-50">
+      <i class="fas fa-bag-shopping fa-fw mr-1"></i>Checkout
+    </div>
     <?php
     $btn = new ActionButtons();
-    $btn->addButton(
-      "Checkout",
-      "fas fa-bag-shopping",
-      "",
-      "border border-blue-600 bg-blue-500 text-gray-50"
-    );
     $btn->addButton(
       "Kembali",
       "fas fa-arrow-left",
@@ -26,8 +24,6 @@
   </div>
 </div>
 
-
-<div class="font-medium"><span class="text-gray-900">ID Pesanan</span> #212</div>
 <table class="w-full mt-3 mb-4">
   <thead class="text-xs font-medium text-gray-900 uppercase border-b-2">
     <tr>
@@ -37,80 +33,140 @@
       <th class="tracking-wider p-3 text-left w-[1%]">Subtotal</th>
     </tr>
   </thead>
-  <tbody>
-    <tr class="odd:bg-white even:bg-transparent">
-      <td class="tracking-wider p-3 text-left flex gap-4">
-        <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-          <img src="<?= base('/public/uploads/kaos.png') ?>" alt="kaos" class="object-cover w-[80px]">
-        </div>
-        <div>
-          <span class="font-medium">Nama Kaos</span><br><span class="text-gray-400">ID Produk: 2168712</span>
-        </div>
-      </td>
-      <td class="tracking-wider p-3 text-left text-gray-900">
-        <div class="flex items-center overflow-hidden w-[120px]">
-          <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300" onclick="changeQty(this, -1)">-</button>
-          <input type="number" min="1" value="1"
-            class="w-12 text-center border-l border-r border-gray-200appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-moz-appearance:textfield]"
-            required>
-          <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300" onclick="changeQty(this, 1)">+</button>
-        </div>
-      </td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.150.000</td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.300.000</td>
-    </tr>
-    <tr class="odd:bg-white even:bg-transparent">
-      <td class="tracking-wider p-3 text-left flex gap-4">
-        <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-          <img src="<?= base('/public/uploads/celana.png') ?>" alt="celana" class="object-cover w-[80px]">
-        </div>
-        <div>
-          <span class="font-medium">Nama Celana</span><br><span class="text-gray-400">ID Produk: 12353231</span>
-        </div>
-      </td>
-      <td class="tracking-wider p-3 text-left text-gray-900">
-        <div class="flex items-center overflow-hidden w-[120px]">
-          <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300" onclick="changeQty(this, -1)">-</button>
-          <input type="number" min="1" value="1"
-            class="w-12 text-center border-l border-r border-gray-200appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-moz-appearance:textfield]"
-            required>
-          <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300" onclick="changeQty(this, 1)">+</button>
-        </div>
-      </td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.100.000</td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.100.000</td>
-    </tr>
-    <tr class="odd:bg-white even:bg-transparent">
-      <td class="tracking-wider p-3 text-left flex gap-4">
-        <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-          <img src="<?= base('/public/uploads/celana.png') ?>" alt="celana" class="object-cover w-[80px]">
-        </div>
-        <div>
-          <span class="font-medium">Nama Celana</span><br><span class="text-gray-400">ID Produk: 12353231</span>
-        </div>
-      </td>
-      <td class="tracking-wider p-3 text-left text-gray-900">1</td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.100.000</td>
-      <td class="tracking-wider p-3 text-left text-gray-900">Rp.100.000</td>
-    </tr>
+  <tbody id="tbody-data">
+    <template id="row-tmp">
+      <tr class="odd:bg-white even:bg-transparent">
+        <td class="tracking-wider p-3 text-left flex gap-4">
+          <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
+            <img src="<?= base('/public/uploads/celana.png') ?>" alt="celana" class="object-cover w-[80px]">
+          </div>
+          <div>
+            <span class="font-medium nama-produk"></span>
+            <br>
+            <span class="text-gray-400">ID Produk: </span>
+            <span class="id-produk"></span>
+            <br>
+            <span
+              class="hapus-btn text-xs cursor-pointer hover:opacity-70 font-medium px-3 py-1 border border-red-400 text-red-400">Hapus</span>
+          </div>
+        </td>
+        <td class="tracking-wider p-3 text-left text-gray-900">
+          <div class="flex items-center overflow-hidden w-[120px]">
+            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 btn-minus">-</button>
+            <input type="number" min="1" value="1"
+              class="w-12 text-center border-l border-r border-gray-200appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-moz-appearance:textfield]"
+              required>
+            <button type="button" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 btn-plus">+</button>
+          </div>
+        </td>
+        <td class="tracking-wider p-3 text-left text-gray-900 harga-satuan"></td>
+        <td class="tracking-wider p-3 text-left text-gray-900 subtotal"></td>
+      </tr>
+    </template>
   </tbody>
   <tfoot>
     <tr>
       <td colspan="2"></td>
       <td class="tracking-wider p-3 font-bold text-xs text-gray-900 uppercase">Total</td>
-      <td class="tracking-wider p-3 text-gray-900">Rp.500.000</td>
+      <td id="total-harga" class="tracking-wider p-3 text-gray-900"></td>
     </tr>
   </tfoot>
 </table>
 
 <script>
-  function changeQty(button, delta) {
-    const input = button.parentElement.querySelector('input[type="number"]');
-    let value = parseInt(input.value) + delta;
-    if (value < parseInt(input.min)) value = parseInt(input.min);
-    input.value = value;
-    input.dispatchEvent(new Event('change'));
+  const tbody = document.getElementById('tbody-data');
+  const template = document.getElementById('row-tmp');
+  const totalEl = document.getElementById('total-harga');
+
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(angka).replace(/^/, "Rp.");
   }
+
+  function updateTotal() {
+    const total = cart.reduce((sum, item) => sum + item.qty * item.harga, 0);
+    totalEl.textContent = formatRupiah(total);
+  }
+
+  async function checkout() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let total = cart.reduce((a, b) => a + (b.qty * b.harga), 0);
+
+    const res = await fetch("<?= base('/public/api/pesanan.php') ?>", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart, total })
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("Transaksi berhasil!");
+      localStorage.removeItem("cart");
+      window.location.reload();
+    } else {
+      alert(result.msg);
+    }
+  }
+
+  cart.forEach(item => {
+    const clone = template.content.cloneNode(true);
+    clone.querySelector('img').src = `<?= base('/public/uploads/') ?>${item.gambar}`;
+    clone.querySelector('.id-produk').textContent = "#" + item.id;
+    clone.querySelector('.nama-produk').textContent = item.nama_produk;
+    clone.querySelector('.harga-satuan').textContent = formatRupiah(item.harga);
+
+    const input = clone.querySelector('input[type="number"]');
+    input.value = item.qty;
+    const subtotalEl = clone.querySelector('.subtotal');
+
+    const hapusBtn = clone.querySelector('.hapus-btn');
+    hapusBtn.addEventListener('click', () => {
+      if (confirm(`Hapus ${item.nama_produk} dari keranjang?`)) {
+        cart = cart.filter(i => i.id !== item.id);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        tbody.removeChild(hapusBtn.closest('tr'));
+        updateTotal();
+      }
+    });
+
+    function updateSubtotal() {
+      subtotalEl.textContent = formatRupiah(item.qty * item.harga);
+      updateTotal();
+    }
+
+    clone.querySelector('.btn-plus').addEventListener('click', () => {
+      item.qty++;
+      input.value = item.qty;
+      updateSubtotal();
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
+
+    clone.querySelector('.btn-minus').addEventListener('click', () => {
+      if (item.qty > 1) {
+        item.qty--;
+        input.value = item.qty;
+        updateSubtotal();
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+    });
+
+    input.addEventListener('change', () => {
+      item.qty = parseInt(input.value);
+      updateSubtotal();
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
+
+    tbody.appendChild(clone);
+    updateSubtotal();
+  });
+
+  updateTotal();
 </script>
 
 <?php require_once __DIR__ . '/../../partials/footer.php'; ?>

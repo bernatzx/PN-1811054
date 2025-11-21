@@ -48,7 +48,7 @@
         <span class="harga text-gray-500"></span>
       </div>
       <div
-        class="bg-gray-800 flex gap-2 justify-center items-center rounded-md shadow-md hover:shadow-lg text-gray-100 text-center px-3 py-1">
+        class="tambah-ke-keranjang cursor-pointer bg-gray-800 flex gap-2 justify-center items-center rounded-md shadow-md hover:opacity-70 text-gray-100 text-center px-3 py-1">
         <div>
           <i class="fas fa-fw fa-cart-plus"></i>
         </div>
@@ -64,6 +64,18 @@
 <script>
   const gbody = document.getElementById('grid-body');
   const temp = document.getElementById('product-card');
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  function addToCart(product) {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${product.nama_produk} berhasil ditambahkan ke keranjang`);
+  }
   function formatRupiah(angka) {
     return new Intl.NumberFormat('id-ID', {
       minimumFractionDigits: 0,
@@ -84,6 +96,14 @@
           clone.querySelector("img").alt = row.nama_produk;
           clone.querySelector(".nama").textContent = row.nama_produk;
           clone.querySelector(".harga").textContent = formatRupiah(row.harga);
+          clone.querySelector(".tambah-ke-keranjang").addEventListener("click", () => {
+            addToCart({
+              id: row.id,
+              nama_produk: row.nama_produk,
+              harga: row.harga,
+              gambar: row.gambar
+            });
+          });
 
           gbody.appendChild(clone);
         })

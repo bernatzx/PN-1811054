@@ -26,49 +26,26 @@
   </div>
 </div>
 
-<?php
-$statues = ["pending", "selesai", "dibatalkan"];
-$statusColors = [
-  "pending" => "orange",
-  "selesai" => "green",
-  "dibatalkan" => "red"
-];
-
-$dd = [];
-for ($i = 1; $i <= 10; $i++) {
-  $dd[] = [
-    "ID Pesanan" => rand(100, 300),
-    "Nama Pelanggan" => "Pelanggan" . $i,
-    "Tanggal" => rand(1, 30) . "/" . rand(1, 12) . "/2025",
-    "Status" => $statues[array_rand($statues)],
-    "Total" => "Rp." . rand(3, 8) . "00.000",
-  ];
-}
-?>
-
 <div class="border shadow-md rounded-lg overflow-hidden">
   <table class="w-full">
     <thead class="text-xs bg-gray-50 text-gray-400 uppercase border-b">
       <tr>
         <th class="tracking-wider p-3 text-left">ID Pesanan</th>
-        <th class="tracking-wider p-3 text-left">Nama Pelanggan</th>
+        <?= ISADMIN() ? "<th class='tracking-wider p-3 text-left'>Nama Pelanggan</th>" : "" ?>
         <th class="tracking-wider p-3 text-left">Tanggal</th>
         <th class="tracking-wider p-3 text-left">Status</th>
         <th class="tracking-wider p-3 text-left">Total</th>
         <th class="tracking-wider p-3 text-center"><i class="fas fa-gear"></i></th>
       </tr>
     </thead>
-    <tbody>
-      <?php foreach ($dd as $key) { ?>
+    <tbody id="tbody-data">
+      <template id="row">
         <tr class="odd:bg-white even:bg-gray-50">
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["ID Pesanan"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Nama Pelanggan"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Tanggal"] ?></td>
-          <td class="p-3 tracking-wider text-left">
-            <span
-              class="opacity-60 text-xs bg-<?= $statusColors[$key["Status"]] ?>-500 rounded-md shadow-md capitalize text-gray-50 py-1 px-2"><?= $key["Status"] ?></span>
-          </td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Total"] ?></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="id"></td>
+          <?= ISADMIN() ? "<td class='p-3 tracking-wider text-left font-medium text-gray-900' data-field='user'></td>" : "" ?>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="tanggal"></td>
+          <td class="p-3 tracking-wider text-left font-medium" data-field="status"></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="total"></td>
           <td class="p-3 tracking-wider text-center text-sm">
             <a class="py-1 px-3 border border-blue-500 text-gray-50 shadow-md hover:opacity-70 bg-blue-400 rounded-md"
               href="detail.php">Detail</i></a>
@@ -76,9 +53,64 @@ for ($i = 1; $i <= 10; $i++) {
               href="">Proses</i></a>
           </td>
         </tr>
-      <?php } ?>
+      </template>
     </tbody>
   </table>
 </div>
+
+<script>
+  const tbody = document.getElementById('tbody-data');
+  const template = document.getElementById('row');
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(angka).replace(/^/, "Rp.");
+  }
+  (async () => {
+    try {
+      const res = await fetch("<?= base('/public/api/pesanan.php') ?>", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      const result = await res.json();
+      if (result.success && result.data) {
+        result.data.forEach((row) => {
+          const clone = template.content.cloneNode(true);
+          clone.querySelector('[data-field="id"]').textContent = row.id;
+
+          const $nl = clone.querySelector('[data-field="user"]');
+          $nl ? $nl.textContent = row.nama_lengkap : null;
+
+          clone.querySelector('[data-field="tanggal"]').textContent = row.tanggal_transaksi;
+
+          const statusEl = clone.querySelector('[data-field="status"]')
+          statusEl.textContent = row.status;
+          switch (row.status.toLowerCase()) {
+            case "pending":
+              statusEl.classList.add("text-yellow-500");
+              break;
+            case "batal":
+              statusEl.classList.add("text-red-500");
+              break;
+            case "selesai":
+              statusEl.classList.add("text-green-600");
+              break;
+          }
+
+          clone.querySelector('[data-field="total"]').textContent = formatRupiah(row.total_harga);
+
+          tbody.appendChild(clone);
+        })
+      } else {
+        tbody.className = "text-center";
+        tbody.innerHTML = `<tr><td colspan='6' class='p-3 text-gray-400 font-medium'>${result.msg}</td></tr>`;
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  })()
+</script>
 
 <?php require_once __DIR__ . '/../../partials/footer.php'; ?>
