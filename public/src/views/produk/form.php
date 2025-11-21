@@ -117,7 +117,7 @@
     } catch (err) {
       errorMsg.textContent = 'Terjadi kesalahan.';
       errorBox.classList.remove('hidden');
-      console.err(err);
+      console.error(err);
     }
   })
 </script>

@@ -38,9 +38,24 @@ class UserHandler
     if ($exists && password_verify($data['password'], $exists["password"])) {
       $_SESSION["valid"] = true;
       $_SESSION["nl"] = $exists["nama_lengkap"];
+      $_SESSION["userID"] = $exists["id"];
       return ["success" => true];
     }
     return ["success" => false, "msg" => "Email atau password salah!"];
+  }
+
+  public function save(int $id, array $data)
+  {
+    $exists = $this->user->findById($id);
+    if (!$exists) {
+      return ['success' => false, 'msg' => 'Data tidak ditemukan'];
+    }
+    $updated = $this->user->update($id, $data);
+    if ($updated) {
+      $_SESSION["nl"] = $data['nama_lengkap'];
+      return ['success' => true, 'msg' => 'Berhasil diperbarui'];
+    }
+    return ['success' => false, 'msg' => 'Gagal memperbarui data'];
   }
 
   public function getAll()
@@ -50,6 +65,15 @@ class UserHandler
       return ["success" => true, "data" => $data];
     }
     return ["success" => false, "msg" => "Belum ada data"];
+  }
+
+  public function getById(int $id)
+  {
+    $data = $this->user->findById($id);
+    if ($data && count($data) > 0) {
+      return ['success' => true, 'data' => $data];
+    }
+    return ['success' => false, 'msg' => 'Pengguna tidak ditemukan'];
   }
 
   public function logout()

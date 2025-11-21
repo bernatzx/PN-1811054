@@ -21,7 +21,7 @@
       <div class="text-gray-400 text-xs">Kelola produk yang Anda tambahkan disini</div>
     </div>
   </div>
-  <div onclick="window.location='<?= base('/public/src/views/profil') ?>'"
+  <div onclick="window.location='<?= base('/public/src/views/profil/data.php') ?>'"
     class="cursor-pointer hover:opacity-70 flex gap-4 bg-white py-3 px-5 font-medium shadow-md border rounded-md">
     <div class="text-3xl text-gray-400">
       <i class="far fa-user fa-fw"></i>

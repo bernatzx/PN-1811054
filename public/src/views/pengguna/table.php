@@ -76,7 +76,7 @@
         return;
       }
     } catch (err) {
-      console.err(err);
+      console.error(err);
     }
   })()
 </script>

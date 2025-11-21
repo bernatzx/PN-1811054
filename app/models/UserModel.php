@@ -30,4 +30,25 @@ class UserModel
     $stm->execute();
     return $stm->fetchAll();
   }
+
+  public function findById(int $id)
+  {
+    global $db;
+    $stm = $db->prepare("SELECT * FROM tb_pelanggan WHERE id = :id LIMIT 1");
+    $stm->bindParam(":id", $id, PDO::PARAM_INT);
+    $stm->execute();
+    return $stm->fetch();
+  }
+
+  public function update(int $id, array $data)
+  {
+    global $db;
+    $stm = $db->prepare("UPDATE tb_pelanggan SET nama_lengkap = :nl, email = :e, alamat = :a, nohp = :np WHERE id = :id");
+    $stm->bindParam(":id", $id, PDO::PARAM_INT);
+    $stm->bindParam(":nl", $data['nama_lengkap']);
+    $stm->bindParam(":e", $data['email']);
+    $stm->bindParam(":a", $data['alamat']);
+    $stm->bindParam(":np", $data['nohp']);
+    return $stm->execute();
+  }
 }
