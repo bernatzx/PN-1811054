@@ -5,33 +5,16 @@ require_once __DIR__ . '/../../app/init.php';
 header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 $produk = new ProdukHandler();
+$input = array_merge($_POST, $_FILES);
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
 try {
   switch ($method) {
     case 'POST':
-      $input = $_POST;
-      if (!empty($_FILES['gambar']['name'])) {
-        $targetDir = __DIR__ . '/../uploads/';
-        if (!is_dir($targetDir)) {
-          mkdir($targetDir, 0777, true);
-        }
-
-        $filename = time() . '_' . basename($_FILES['gambar']['name']);
-        $targetFile = $targetDir . $filename;
-
-        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
-          $input['gambar'] = $filename;
-        } else {
-          $input['gambar'] = $_POST['gambar-lama'] ?? null;
-        }
-      } else {
-        $input['gambar'] = $_POST['gambar-lama'] ?? null;
-      }
-      echo json_encode($produk->create($input));
+      echo json_encode($id ? $produk->change($id, $input) : $produk->create($input));
       break;
     case 'GET':
-      echo json_encode($produk->getAll());
+      echo json_encode($id ? $produk->getOne($id) : $produk->getAll());
       break;
     case 'DELETE':
       echo json_encode($produk->remove($id));
@@ -42,7 +25,6 @@ try {
       break;
   }
 } catch (\Throwable $e) {
-  error_log("API error: " . $e->getMessage());
-  http_response_code(500);
-  echo json_encode(['success' => false, 'msg' => 'Terjadi kesalahan server']);
+  http_response_code(400);
+  echo json_encode(['success' => false, 'msg' => $e->getMessage()]);
 }
