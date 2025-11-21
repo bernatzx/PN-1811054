@@ -34,18 +34,6 @@
   </div>
 </div>
 
-<?php
-$dd = [];
-for ($i = 1; $i < 11; $i++) {
-  $dd[] = [
-    "ID" => rand(100, 300),
-    "Nama Produk" => "Produk" . $i,
-    "Harga" => "Rp." . rand(1, 3) . "00.000",
-    "Stok" => rand(1, 10),
-  ];
-}
-?>
-
 <div class="border shadow-md rounded-lg overflow-hidden">
   <table class="w-full">
     <thead class="text-xs bg-gray-50 text-gray-400 uppercase border-b">
@@ -53,27 +41,100 @@ for ($i = 1; $i < 11; $i++) {
         <th class="tracking-wider p-3 text-left w-20">ID</th>
         <th class="tracking-wider p-3 text-left">Nama Produk</th>
         <th class="tracking-wider p-3 text-left">Harga</th>
-        <th class="tracking-wider p-3 text-center">Stok</th>
+        <th class="tracking-wider p-3 text-left">Stok</th>
         <th class="tracking-wider p-3 text-center"><i class="fas fa-gear"></i></th>
       </tr>
     </thead>
-    <tbody>
-      <?php foreach ($dd as $key) { ?>
-        <tr class="odd:bg-white even:bg-gray-50">
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["ID"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Nama Produk"] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key["Harga"] ?></td>
-          <td class="p-3 tracking-wider text-center font-medium text-gray-900"><?= $key["Stok"] ?></td>
-          <td class="p-3 tracking-wider text-center">
-            <a class="py-1 px-3 border border-yellow-500 text-gray-50 shadow-md hover:opacity-70 bg-yellow-400 rounded-md"
-              href=""><i class="fas fa-pencil"></i></a>
-            <a class="py-1 px-3 border border-red-600 text-gray-50 shadow-md hover:opacity-70 bg-red-500 rounded-md"
-              href=""><i class="fas fa-trash"></i></a>
-          </td>
-        </tr>
-      <?php } ?>
+    <tbody id="tbody-data">
+      <!-- <tr class="odd:bg-white even:bg-gray-50">
+        <td class="p-3 tracking-wider text-left font-medium text-gray-900">233</td>
+        <td class="p-3 tracking-wider text-left font-medium text-gray-900">Kaos</td>
+        <td class="p-3 tracking-wider text-left font-medium text-gray-900">Rp.100.000</td>
+        <td class="p-3 tracking-wider text-center font-medium text-gray-900">4</td>
+        <td class="p-3 tracking-wider text-center">
+          <a class="py-1 px-3 border border-yellow-500 text-gray-50 shadow-md hover:opacity-70 bg-yellow-400 rounded-md"
+            href=""><i class="fas fa-pencil"></i></a>
+          <a class="py-1 px-3 border border-red-600 text-gray-50 shadow-md hover:opacity-70 bg-red-500 rounded-md"
+            href=""><i class="fas fa-trash"></i></a>
+        </td>
+      </tr> -->
     </tbody>
   </table>
 </div>
+
+<script>
+  const tbody = document.getElementById('tbody-data');
+
+  const tdClass = "p-3 tracking-wider text-left font-medium text-gray-900";
+  const tdAksiClass = "p-3 tracking-wider text-center space-x-2";
+  const el = (tag, className = "", text = "") => {
+    const e = document.createElement(tag);
+    if (className) e.className = className;
+    if (text) e.textContent = text;
+    return e;
+  };
+
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(angka).replace(/^/, "Rp.");
+  }
+
+  (async () => {
+    try {
+      const res = await fetch("<?= base("/public/api/produk.php") ?>", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      const result = await res.json();
+      if (result.success) {
+        result.data.forEach((row) => {
+          const tr = el('tr', 'odd:bg-white even:bg-gray-50');
+          const tdID = el("td", tdClass, row.id);
+          const tdProduk = el("td", tdClass, row.nama_produk);
+          const tdHarga = el("td", tdClass, formatRupiah(row.harga));
+          const tdStok = el("td", tdClass, row.stok);
+          const tdAksi = el("td", tdAksiClass);
+
+          const hapus = el("a", "cursor-pointer py-1 px-3 border border-red-600 text-gray-50 shadow-md hover:opacity-70 bg-red-500 rounded-md");
+          const edit = el("a", "cursor-pointer py-1 px-3 border border-yellow-500 text-gray-50 shadow-md hover:opacity-70 bg-yellow-400 rounded-md");
+
+          hapus.innerHTML = "<i class='fas fa-trash'></i>";
+          edit.innerHTML = "<i class='fas fa-pencil'></i>";
+
+          edit.addEventListener('click', async () => {
+            window.location.href = "form.php?id=" + row.id;
+          })
+
+          hapus.addEventListener("click", async () => {
+            if (confirm(`Anda akan menghapus produk ${row.nama_produk}?`)) {
+              const res = await fetch(`<?= base('/public/api/produk.php') ?>?id=${row.id}`, {
+                method: "DELETE",
+              });
+              const result = await res.json();
+              console.log("DEBUG DELETE:", result);
+              if (result.success) {
+                window.location.reload();
+              } else {
+                alert(result.msg);
+              }
+            }
+          });
+
+          tdAksi.append(edit, hapus);
+          tr.append(tdID, tdProduk, tdHarga, tdStok, tdAksi);
+          tbody.append(tr);
+        })
+      } else {
+        tbody.className = "text-center";
+        tbody.innerHTML = `<tr><td colspan='5' class='p-3 text-gray-400 font-medium'>${result.msg}</td></tr>`;
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  })()
+</script>
 
 <?php require_once __DIR__ . '/../../partials/footer.php'; ?>
