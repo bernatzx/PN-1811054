@@ -26,18 +26,6 @@
   </div>
 </div>
 
-<?php
-$dd = [];
-for ($i = 1; $i <= 10; $i++) {
-  $dd[] = [
-    "Pengguna" . $i,
-    "pengguna" . $i . "@mail.com",
-    "Alamat-" . $i,
-    "081234567890",
-  ];
-}
-?>
-
 <div class="border shadow-md rounded-lg overflow-hidden">
   <table class="w-full">
     <thead class="text-xs bg-gray-50 text-gray-400 uppercase border-b">
@@ -48,17 +36,49 @@ for ($i = 1; $i <= 10; $i++) {
         <th class="tracking-wider p-3 text-left">No.HP</th>
       </tr>
     </thead>
-    <tbody>
-      <?php foreach ($dd as $key) { ?>
+    <tbody id="tbody-data">
+      <template id="row-template">
         <tr class="odd:bg-white even:bg-gray-50">
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key[0] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key[1] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key[2] ?></td>
-          <td class="p-3 tracking-wider text-left font-medium text-gray-900"><?= $key[3] ?></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="nama"></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="email"></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="alamat"></td>
+          <td class="p-3 tracking-wider text-left font-medium text-gray-900" data-field="nohp"></td>
         </tr>
-      <?php } ?>
+      </template>
     </tbody>
   </table>
 </div>
+
+<script>
+  const tbody = document.getElementById('tbody-data');
+  const rowTemp = document.getElementById('row-template');
+  (async () => {
+    try {
+      const res = await fetch("<?= base("/public/api/auth.php") ?>", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      const result = await res.json();
+      console.log(result);
+      if (result.success) {
+        result.data.forEach((row) => {
+          const clone = rowTemp.content.cloneNode(true);
+          clone.querySelector('[data-field="nama"]').textContent = row.nama_lengkap
+          clone.querySelector('[data-field="email"]').textContent = row.email
+          clone.querySelector('[data-field="alamat"]').textContent = row.alamat || "Belum ada"
+          clone.querySelector('[data-field="nohp"]').textContent = row.nohp || "Belum ada"
+
+          tbody.appendChild(clone);
+        })
+      } else {
+        tbody.className = "text-center";
+        tbody.innerHTML = `<tr><td colspan='4' class='p-3 text-gray-400 font-medium'>${result.msg}</td></tr>`;
+        return;
+      }
+    } catch (err) {
+      console.err(err);
+    }
+  })()
+</script>
 
 <?php require_once __DIR__ . '/../../partials/footer.php'; ?>

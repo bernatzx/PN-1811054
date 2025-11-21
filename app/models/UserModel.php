@@ -26,7 +26,7 @@ class UserModel
   public function findAll()
   {
     global $db;
-    $stm = $db->prepare("SELECT * FROM tb_pelanggan");
+    $stm = $db->prepare("SELECT nama_lengkap, email, alamat, nohp FROM tb_pelanggan");
     $stm->execute();
     return $stm->fetchAll();
   }
