@@ -5,6 +5,7 @@ session_start();
 require_once __DIR__ . "/db.php";
 require_once __DIR__ . "/handlers/AdminHandler.php";
 require_once __DIR__ . "/handlers/UserHandler.php";
+require_once __DIR__ . "/handlers/ProdukHandler.php";
 
 function VALID()
 {
